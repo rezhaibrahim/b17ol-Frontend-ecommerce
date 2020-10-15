@@ -26,10 +26,14 @@ import {connect} from 'react-redux'
   }
 
   render() {
-    console.log("cek:",this.props.auth.isLogin);
+    console.log("cek:",this.props.auth.token);
+    if(localStorage.getItem('customer')&& this.props.auth.token !== null){
+      this.props.auth.isLogin = true
+    }
     return (
       <>
-      {!this.props.auth.isLogin ?  <Navbar color="light" light expand="md" className="shadow sticky-top">
+      {!this.props.auth.isLogin  ? 
+       <Navbar color="light" light expand="md" className="shadow sticky-top">
         <Container>
           <Row className="w-100 align-items-center no-gutters">
             <Col xs="12" lg="2" className="mx-auto">
