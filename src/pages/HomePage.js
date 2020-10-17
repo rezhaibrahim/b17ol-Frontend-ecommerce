@@ -11,21 +11,27 @@ import CarouselPromo from '../components/CarouselPromo'
 import CarouselCategory from '../components/CarouselCategory'
 import SetCarousel from '../components/setCarousel'
 
-import newItemsAction from '../redux/actions/item'
+// import newItemsAction from '../redux/actions/item'
+import itemsNewAction from '../redux/actions/itemNew'
+import itemsPopularAction from '../redux/actions/itemPopular'
 import categoryAction from '../redux/actions/category'
 import {connect} from 'react-redux'
 
 class Home extends Component {
   componentDidMount() {
-    this.props.getItems()
+    // this.props.getItems()
+    this.props.getItemNew()
+    this.props.getItemPopular()
     this.props.getCategory()
-    // console.log("cek lagi",this.props.getItems());
+    // console.log("cek lagi",this.props.getItemNew());
   }
   
   render() {
-    const {data} = this.props.item
+    // const {data} = this.props.item
     const {category} = this.props.category
-    // console.log("cek:",this.props.auth.isLogin);
+    const {dataNew} = this.props.itemConditionNew
+    const {dataPopular} = this.props.itemConditionPopular
+    console.log("cek new:",this.props.itemNew);
     return (
       <>
       <Navbar />
@@ -36,8 +42,8 @@ class Home extends Component {
         <SetCarousel>
           <CarouselCategory category={category}/>
         </SetCarousel>
-        <NewItems data={data} />
-        <PopularItems data={data} />
+        <NewItems dataNew={dataNew} />
+        <PopularItems dataPopular={dataPopular} />
       </Container>
     </>
     );
@@ -46,14 +52,18 @@ class Home extends Component {
 
 
 const mapStateToProps = state => ({
-  item: state.newItems,
+  // item: state.newItems,
   category: state.listCategory,
-  auth: state.auth
+  auth: state.auth,
+  itemConditionNew: state.itemNew,
+  itemConditionPopular: state.itemPopular
 })
 
 const mapDispatchToProps = {
-  getItems: newItemsAction.getData,
-  getCategory: categoryAction.getCategory
+  // getItems: newItemsAction.getData,
+  getCategory: categoryAction.getCategory,
+  getItemNew: itemsNewAction.getDataNew,
+  getItemPopular:itemsPopularAction.getDataPopular
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

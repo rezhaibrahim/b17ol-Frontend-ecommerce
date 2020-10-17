@@ -22,6 +22,7 @@ import {connect} from 'react-redux'
     super(props);
     this.state = {
       navbarOpen: false,
+      dropdownOpen:false
     };
   }
 

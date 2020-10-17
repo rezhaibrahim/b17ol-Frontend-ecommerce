@@ -7,8 +7,8 @@ import {
 
 
 
-export default function PopularItems({ data }) {
-  // console.log("cek",data);
+export default function PopularItems({ dataPopular }) {
+  // console.log("cek",dataPopular);
   return (
     <>
       <Container className="mt-3">
@@ -22,16 +22,16 @@ export default function PopularItems({ data }) {
 
 
           <Row className="d-flex justify-content-between no-gutters">
-        {data.map(data => (
+        {dataPopular.map(dataPopular => (
           
             <Col className="m-2" xs="12" lg={{ size: 2, offset: 1 }}>
               <Link className="card-product" to="/items/detail">
                 <Card className="rounded-lg shadow card-product">
-                  <CardImg top width="100%" src={`http://localhost:8080/${data.picture.replace('assets/', '')}`} alt="Item image" />
+                  <CardImg top width="100%" src={`http://localhost:8080/${dataPopular.picture.replace('assets/', '')}`} alt="Item image" />
                   <CardBody>
-                    <CardText className="m-0"><span className="font-weight-bold h6">{data.itemName}</span></CardText>
-                    <CardText className="m-0"><span className="font-weight-bold h5 text-danger">Rp.{data.price}</span></CardText>
-                    <CardText className="m-0"><span className="text-muted h6">{data.category}</span></CardText>
+                    <CardText className="m-0"><span className="font-weight-bold h6">{dataPopular.itemName}</span></CardText>
+                    <CardText className="m-0"><span className="font-weight-bold h5 text-danger">Rp.{dataPopular.price}</span></CardText>
+                    <CardText className="m-0"><span className="text-muted h6">{dataPopular.category}</span></CardText>
                   </CardBody>
                 </Card>
                 </Link>
