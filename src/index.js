@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import 'antd/dist/antd.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/font.css';
 import './assets/css/style.css';
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import './index.css';
+import App from './App';
+// import 'antd/dist/antd.css';
 
 import "react-multi-carousel/lib/styles.css";
 import * as serviceWorker from './serviceWorker';

@@ -1,18 +1,20 @@
-import http from '../../helpers/http'
-import qs from 'querystring'
+import http from '../../helpers/http';
+import qs from 'qs';
+const {REACT_APP_URL} = process.env
 export default {
   login: (data) => ({
-    type: 'AUTH_USER',
-    payload: http().post('http://localhost:8080/auth/login/customer',qs.stringify(data))
+    type: 'LOGIN',
+    payload: http().post(`${REACT_APP_URL}auth/login/customer`, qs.stringify(data)),
+  }),
+  register: (data) => ({
+    type: 'SIGNUP',
+    payload: http().post(`${REACT_APP_URL}auth/register/customer`, qs.stringify(data)),
   }),
   logout: () => ({
-    type: 'LOGOUT_USER',
+    type: 'LOGOUT',
   }),
-  clearMessage: () => ({
-    type: 'CLEAR_MESSAGE',
-  }),
-  setToken: (payload) =>({
-    type : 'SET_TOKEN',
-    payload
+  setToken: (token) => ({
+    type: 'SET_TOKEN',
+    payload: { token }
   })
 };

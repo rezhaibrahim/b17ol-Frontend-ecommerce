@@ -1,173 +1,232 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-
-import productAction from '../redux/actions/page-product'
-
+/* eslint-disable prefer-destructuring */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-filename-extension */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import numeral from 'numeral';
 import {
-  Row,
-  Container,
-  Col,
-  Card, CardBody, CardImg, CardTitle, CardSubtitle, CardText
-} from 'reactstrap'
+  Button, Col, Container, Modal, ModalBody, Row,
+} from 'reactstrap';
 
-// importing image
-import Star from '../assets/img/activated.png'
-import Rectangle from '../assets/img/Rectangle 605.svg'
-import Shape from '../assets/img/Shape1.svg'
+import itemsAction from '../../redux/actions/item';
+import cartAction from '../../redux/actions/mybag';
 
-// Importing page
-import NavigationBar from '../components/NavigationBar'
-import NavigationBar2 from '../components/NavigationBar2'
+import Navigation from '../../components/Navigation';
+import Rating from '../../components/StarRatings';
 
-class PageProduct extends React.Component{
-  componentDidMount() {
-    const { id } = this.props.match.params
-    this.props.getProduct(id)
+import product1 from '../../assets/images/product1.svg';
+import product2 from '../../assets/images/product2.jpg';
+import product3 from '../../assets/images/product3.jpg';
+import product4 from '../../assets/images/product4.jpg';
+import { Link, Redirect } from 'react-router-dom';
+
+export class DetailItems extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: this.props.match.params.id,
+      token: this.props.auth.token,
+      data: {},
+
+    };
   }
-  // componentDidUpdate() {
-  //   const { id } = this.props.match.params
-  //   this.props.getProduct(id)   
-  // }
-  render(){
-    // console.log(this.props)
-    return(
-    <>
-    {this.props.auth.isLogin ? <NavigationBar/> : <NavigationBar2/>}
-      <Container className='mt-4'>
-        <div className='menu-category'>
-          <p> 
-            <Link className='menu-link' to='/'>Home</Link> {' > '} 
-            <Link  className='menu-link'to='category'>Category</Link> {' > '} 
-            <Link className='menu-link' to='/'> {this.props.product.data.category} </Link> 
-          </p>
-        </div>
-        <Row>
-          <div className='col-6'>
-            <div className='row justify-content-around'>
-              <img className='mb-3 mr-1 col-5' src={this.props.product.data.picture1} style={{width: 263, height: 300}} alt='product.png' />
-              <img className='mb-3 mr-1 col-5' style={{width: 263, height: 329}} alt='product.png' />
-            </div>
-            <div className='row justify-content-around'>
-              <img className='mb-3 mr-1 col-5' style={{width: 263, height: 329}} alt='product.png' />
-              <img className='mb-3 mr-1 col-5' style={{width: 263, height: 329}} alt='product.png' />
-            </div>
+  componentDidMount() {
+    this.props.getDetailItems(this.state.id);
+    // console.log("asdsad",this.props.location)
+    // console.log("detail:",this.props.getDetailItems(this.state.id));
+  }
+
+  addCart = (itemsId) =>
+  {
+    // console.log("cart:",itemsId)
+    const cart = {
+      itemsId,
+      qty: 1
+    }
+    if (this.props.auth.isLogin === false) {
+      const location = {
+        pathname: '/login',
+        state: {
+          location: this.props.location.pathname
+        }
+      }
+     
+      this.props.history.replace(location)
+    } else {
+      this.props.addCart(this.state.token, cart)
+      setTimeout(()=>{
+        this.props.clearMsg()
+      },2000)
+    }
+  }
+
+  render() {
+    const { dataDetail } = this.props.item;
+    // const data = dataDetail.picture
+    // console.log("asd:",this.props.auth.isLogin);
+    const { alertMsg } = this.props.cart
+    // console.log(this.props.cart.data);
+    let results = {};
+    // console.log("cek:",dataDetail);
+    if (dataDetail !== null) {
+      results = dataDetail;
+    }
+    // console.log('asdasdqwe',results)
+    return (
+      <>
+      <Navigation />
+        <Container className="mt-4">
+          <Modal centered isOpen={alertMsg !== ''}>
+            <ModalBody className='text-center'>
+              {alertMsg}
+            </ModalBody>
+          </Modal>
+          <div>
+            <span className="text-muted h6">{`Home > Category > ${dataDetail.category}`}</span>
           </div>
-          <div className='col-6 name-detil'>
-            <p className="nama-produk">{this.props.product.data.name}</p>
-            <p className="merk">Nike</p>
-            <p className="star">
-              <img src= {Star}  alt="star" />
-              <img src= {Star}  alt="star" /> 
-              <img src= {Star}  alt="star" /> 
-              <img src= {Star}  alt="star" /> 
-              <img src= {Star}  alt="star" /> 
-              (10)
-            </p>
-            <p className="price-text mb-0">Price</p>
-            <p className="price">Rp {this.props.product.data.price}</p>
-
-            <div class="amount-wrapper mb-4">
-              <p>Jumlah</p>
-              <div class="add-min-size d-flex flex-row">
-                  <div class="min">
-                      <img src={Rectangle} alt="minus" />
-                  </div>
-                  <p>1</p>
-                  <div class="plus">
-                      <img src={Shape} alt="plus" />
-                  </div>
-              </div>
-            </div>
-
-            <div className='button'>
-              <div className="abu d-flex flex-row mb-4">
-                <Link><button className="signup">Chat</button></Link> 
-                <button className="signup ml-3">Add bag</button>
-              </div>
-              <button className="login">Buy now</button>
-            </div>
-              
-          </div>
-        </Row>
-
-        <div class="tengah mt-5">
-            <p class="informasi-text">Informasi Produk</p>
-            <p class="cond-text">Condition</p>
-            <p class="new-text">New</p>
-            <p class="desc-text mb-0">Description</p>
-            <p class="p-abu">{this.props.product.data.description}</p>
-            <p class="review-text mt-5">Product review</p>
-            <div class="d-flex flex-row">
-                <div class="row-1">
-                    <p class="big mb-0">5.0<span class="small-grey">/10</span> </p>
-                    <p className="star">
-                      <img src= {Star}  alt="star" />
-                      <img src= {Star}  alt="star" /> 
-                      <img src= {Star}  alt="star" /> 
-                      <img src= {Star}  alt="star" /> 
-                      <img src= {Star}  alt="star" /> 
-                      (10)
-                    </p>
-                </div>
-                <div class="row-2">
-                    <p class="mb-0"><img src= {Star}  alt="star" /> 5</p>
-                    <p  class="mb-0"><img src= {Star}  alt="star" /> 4</p>
-                    <p  class="mb-0"><img src= {Star}  alt="star" /> 3</p>
-                    <p class="mb-0"><img src= {Star}  alt="star" /> 2</p>
-                    <p class="mb-0"><img src= {Star}  alt="star" /> 1</p>
-                </div>
-                <div class="row-3 ml-4">
-                    <hr/>
-                </div>
-                <div class="row-4 ml-4">
-                    <p  class="mb-0">4</p>
-                    <p class="mb-0">0</p>
-                    <p class="mb-0">0</p>
-                    <p class="mb-0">0</p>
-                    <p class="mb-0">0</p>
-                </div>
-            </div>
-        </div>
-        <hr/>
-        <div class="bawah">
-            <p class="big-bold">You can also like this</p>
-            <p class="grey-small">You've never seen it before!</p>
-            <div class="d-flex flex-row justify-content-between mb-4 ">
-            <Col className="card-deck col-sm-12 col-md-6 col-lg-3 col-xl-3" >
-              <Card className="shadow border-0 mb-3">
-                <CardImg  alt="suit.png" />
-                <CardBody>
-                  <CardTitle className="cardTitle"> item.name </CardTitle>
-                  <CardSubtitle className="cardPrice">Rp item.name</CardSubtitle>
-                  <CardText className="cardStore mb-0">Zalora Cloth</CardText>
-                  <div className="">
-                    <img src={Star} alt="star.png"/>
-                    <img src={Star} alt="star.png"/>
-                    <img src={Star} alt="star.png"/>
-                    <img src={Star} alt="star.png"/>
-                    <img src={Star} alt="star.png"/>
-                    <p className="greyText d-inline"> item.name</p>
-                  </div>
-                </CardBody>
-              </Card>
+          <Row className="my-3">
+            <Col md={6}>
+              <Row>
+                <Col md={6} className="my-3">
+                  <img width="100%" src={product1} alt="..." />
+                </Col>
+                <Col md={6} className="my-3">
+                  <img width="100%" src={product2} alt="..." />
+                </Col>
+                <Col md={6} className="my-3">
+                  <img width="100%" src={product3} alt="..." />
+                </Col>
+                <Col md={6} className="my-3">
+                  <img width="100%" src={product4} alt="..." />
+                </Col>
+              </Row>
             </Col>
+            <Col md={6} className="my-3 d-flex flex-column">
+              <span className="h4 font-weight-bold">{dataDetail.itemName}</span>
+              <span className="h6 text-muted">{dataDetail.store}</span>
+              <div>
+                <Rating number={dataDetail.rating} />
+              </div>
+              <span className="h6 text-muted mt-4">Price</span>
+              <span className="h4 font-weight-bold">
+                Rp.
+                {numeral(dataDetail.price).format(0, 0).toString().replace(',', '.')
+                  .replace(',', '.')}
+              </span>
+              <span className="mt-4">Color</span>
+    <div>{dataDetail.color}</div>
+              <Row className="mt-4">
+                <Col md={7}>
+                  <Row>
+                    <Col md={6}>
+                      <span>Size</span>
+                    </Col>
+                    <Col md={6}>
+                      <span>Jumlah</span>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="mt-4 no-gutters">
+                <Col md={7}>
+                  <Row className="">
+                    <Col md={6} className="pr-1">
+                      <Button block className="btn-2 rounded-pill py-2">Chat</Button>
+                    </Col>
+                    <Col md={6} className="pl-1">
+                      <Button onClick={()=>this.addCart(results.id)} block className="btn-2 rounded-pill py-2">
+                        Add cart
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="mt-4 no-gutters">
+                <Col md={7}>
+                  <Button block className="btn-1 rounded-pill py-2">Buy Now</Button>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <div className="my-5">
+            <div className="h4 font-weight-bold">Informasi Produk</div>
+            <div className="h5 font-weight-bold mt-4">Condition</div>
+            <div className="h5 font-weight-bold text-danger">{dataDetail.conditions}</div>
+            <div className="h5 font-weight-bold mt-4">Description</div>
+            <p className="text-muted">
+              {dataDetail.description}
+            </p>
+          </div>
+          <div className="my-5">
+            <div className="h4 font-weight-bold">Product Review</div>
+            <div className="mt-4">
+              <Row>
+                <Col md={5}>
+                  <Row>
+                    <Col md={4} className="d-flex flex-column justify-content-center">
+                      <div className="display-4">
+                        {dataDetail.rating !== null ? parseFloat(dataDetail.rating).toFixed(1) : 0}
+                        <small className="h5 text-muted">/10</small>
+                      </div>
+                      <div>
+                        <Rating number={dataDetail.rating} />
+                      </div>
+                    </Col>
+                    <Col md={8}>
+                      <Row>
+                        <Col md={1} className="d-flex flex-column justify-content-center align-items-center">
+                          <div>5</div>
+                          <div>4</div>
+                          <div>3</div>
+                          <div>2</div>
+                          <div>1</div>
+                        </Col>
+                        <Col md={1} className="d-flex flex-column justify-content-center align-items-center">
+                          <div className="text-muted">5</div>
+                          <div className="text-muted">4</div>
+                          <div className="text-muted">3</div>
+                          <div className="text-muted">2</div>
+                          <div className="text-muted">1</div>
+                        </Col>
+                        <Col md={7} className="d-flex flex-column justify-content-center align-items-center">
+                          <div>&nbsp;</div>
+                          <div>&nbsp;</div>
+                          <div>&nbsp;</div>
+                          <div>&nbsp;</div>
+                          <div>&nbsp;</div>
+                        </Col>
+                        <Col md={1} className="d-flex flex-column justify-content-center align-items-center">
+                          <div className="text-muted">4</div>
+                          <div className="text-muted">0</div>
+                          <div className="text-muted">0</div>
+                          <div className="text-muted">0</div>
+                          <div className="text-muted">0</div>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </div>
-        </div>
-
-      </Container>
+          </div>
+        </Container>
       </>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  product: state.product
-})
+  item: state.itemNew,
+  cart: state.cart
+});
 
 const mapDispatchToProps = {
-  getProduct: productAction.getData
-}
+  getDetailItems: itemsAction.getDetail,
+  addCart: cartAction.addCart,
+  clearMsg: cartAction.clearMessage
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageProduct)
+export default connect(mapStateToProps, mapDispatchToProps)(DetailItems);
+// export default Product;

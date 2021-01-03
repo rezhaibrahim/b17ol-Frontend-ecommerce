@@ -17,7 +17,7 @@ import Clipboard from '../../assets/img/clipboard 1.svg'
 import store from '../../redux/store'
 import auth from '../../redux/actions/auth'
 
-import profileAction from '../../redux/actions/profile'
+import profileAction from '../../redux/actions/user'
 
 class Profile extends Component {
   state = {

@@ -1,46 +1,90 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
-import logo from '../assets/img/logo.svg'
-import '../assets/css/register.css'
-import { Container, Col, FormGroup, Input, ButtonGroup, Button, Row } from 'reactstrap'
-export default class Login extends Component {
-  constructor(props){
+import {
+  Container, Button, ButtonGroup,
+  Form, Input, Alert
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import auth from '../redux/actions/auth'
+
+// import images
+import logo from '../assets/images/logo.svg';
+
+class Register extends Component {
+  constructor(props) {
     super(props);
-    this.state={
-
-    }
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+    };
   }
+
+  onChangeText = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  register = (e) => {
+    e.preventDefault()
+    const {name, email, password} = this.state
+    const data = {
+      name,
+      email,
+      password
+    }
+    this.props.register(data)
+  }
+
   render() {
+    const {alertMsg, isError} = this.props.auth
     return (
-      <Container fluid >
-        <Container className='mt-2 d-flex justify-content-center align-items-center flex-column' >
-
-          <Row>
-
-            <Col className='mt-5 d-flex justify-content-center align-items-center flex-column'>
-              <img src={logo} alt="logo blanja" />
-              <p className='mt-5 message' >Please sign up with your account</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="mt-2 mb-3  d-flex justify-content-center align-items-center">
-              <button className='button first' >Custommer</button><button className='button second'>Seller</button>
-            </Col>
-          </Row>
-          <Row className="mt-2 mb-5  d-flex justify-content-center align-items-center">
-
-            <Col lg={12} md={8} >
-              <Input className="mb-2" type='text' placeholder='Name' />
-              <Input className="mb-2" type='text' placeholder='Email' />
-              <Input className="mb-2" type='password' placeholder='Password' />
-              <input className="mt-3 loginBtn" type='submit' value="Register" />
-              <div className="d-flex justify-content-center mt-4 mb-5">
-              <span>Already have a Tokopedia account? <span className='forgot'>Login</span> </span>
-              </div>
-            </Col>
-
-          </Row>
+      <>
+        <Container className="d-flex flex-column vh-100 justify-content-center align-items-center">
+          <div style={{width: 400}}>
+            <Alert width={100} isOpen={alertMsg!==''} color={isError?'danger':'success'} className='text-center'>{alertMsg}</Alert>
+          </div>
+          <div className="text-center">
+            <div>
+              <img src={logo} alt="Logo" />
+            </div>
+            <div className="mt-3">
+              <span className="h5">Please sign up with your account</span>
+            </div>
+          </div>
+          <div className="mt-4">
+            <ButtonGroup>
+              <Button className="btn-1 form rounded-left">Customer</Button>
+              <Button className="btn-2 form rounded-right">Seller</Button>
+            </ButtonGroup>
+          </div>
+          <Form onSubmit={this.register} className="auth mt-4">
+            <Input onChange={this.onChangeText} name='name' type="text" className="pl-3 auth-input rounded-lg" placeholder="Name" aria-label="Name" />
+            <Input onChange={this.onChangeText} name='email' type="text" className="mt-3 pl-3 auth-input rounded-lg" placeholder="Email" aria-label="Email" />
+            <Input onChange={this.onChangeText} name='password' type="password" className="mt-3 pl-3 auth-input rounded-lg" placeholder="Password" aria-label="Password" />
+            <Button type='submit' className="w-100 mt-3 btn-1 text-uppercase form rounded-pill">Sign up</Button>
+          </Form>
+          <div className="mt-3">
+            <span>
+              Already have an account?
+              {' '}
+              <Link to="/login" className="fontColor text-decoration-none">Login</Link>
+            </span>
+          </div>
         </Container>
-      </Container>
+      </>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = {
+  register: auth.register
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

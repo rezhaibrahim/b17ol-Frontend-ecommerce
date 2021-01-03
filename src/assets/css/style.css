@@ -83,6 +83,16 @@
 
 .fontColor:hover {
   color: #91190f;
+  text-decoration: none;
+}
+
+.linkColor {
+  color: black;
+}
+
+.linkColor:hover {
+  color: black;
+  text-decoration: none;
 }
 
 .btn-1 {
@@ -92,6 +102,7 @@
 
 .btn-1:hover, .btn-1:focus, .btn-2:hover, .btn-2:focus {
   background-color: #91190f;
+  color: #fff;
 }
 
 .btn-2 {
@@ -108,13 +119,22 @@
   background-color: #fff;
 }
 
+.btn-4, .btn-4:hover {
+  background-color: #f8f9fa;
+  border-width: 0;
+}
+
+.btn-4:focus {
+  background-color: #91190f !important;
+}
+
 .card-product {
   color: black;
 }
 
 .card-product:hover {
   text-decoration: none;
-  border: 2px solid #91190f;
+  border: 1px solid #91190f;
 }
 
 .search-icon {
@@ -125,7 +145,8 @@
 
 .filter {
   border-radius: 15px 15px;
-  border: 1px solid #ffff;
+  border: 1px solid #9b9b9b;
+  background: #fff;
 }
 
 .btn-1.form, .btn-2.form {
@@ -148,55 +169,4 @@
 .btn-search, .desc {
   border-top-right-radius: 25px !important;
   border-bottom-right-radius: 25px !important;
-}
-
-.menu-wrapper{
-  margin-left: 60px;
-  margin-top: 80px;
-}
-
-.menu-wrapper .user{
-  border: 1px solid #456BF3;
-  border-radius: 24px;
-  background-color: #456BF3;
-  width: 30px;
-  height: 30px;
-  position: relative;
-}
-
-.menu-wrapper .user img{
-  position: absolute;
-  transform: translate(40%,40%);
-}
-
-.menu-wrapper .map{
-  border: 1px solid #F36F45;
-  border-radius: 24px;
-  background-color: #F36F45;
-  width: 30px;
-  height: 30px;
-  position: relative;
-}
-
-.menu-wrapper .map img{
-  position: absolute;
-  transform: translate(40%,40%);
-}
-
-.menu-wrapper .clipboard{
-  border: 1px solid #F3456F;
-  border-radius: 24px;
-  background-color: #F3456F;
-  width: 30px;
-  height: 30px;
-  position: relative;
-}
-
-.menu-wrapper .clipboard img{
-  position: absolute;
-  transform: translate(40%,40%);
-}
-
-.line{
-  border:1px solid #D4D4D4;
 }

@@ -1,53 +1,4 @@
-// import React, { Component } from 'react';
-// import logo from '../assets/img/logo.svg'
-// import '../assets/css/login.css'
-// import { Container, Col, Row ,Input} from 'reactstrap'
-// export default class Login extends Component {
-//   constructor(props){
-//     super(props);
-//     this.state={
 
-//     }
-//   }
-//   render() {
-//     return (
-//       <Container fluid >
-//         <Container className='mt-2 d-flex justify-content-center align-items-center flex-column' >
-
-//           <Row>
-
-//             <Col className='mt-5 d-flex justify-content-center align-items-center flex-column'>
-//               <img src={logo} alt="logo blanja" />
-//               <p className='mt-5 message' >Please login with account</p>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col className="mt-2 mb-4  d-flex justify-content-center align-items-center">
-//               <button className='button first' >Custommer</button><button className='button second'>Seller</button>
-//             </Col>
-//           </Row>
-//           <Row>
-
-//             <Col lg={12}>
-//               <Input className="mb-2 input" type='text' placeholder='Email' />
-//               <Input className="mt-2" type='password' placeholder='Password' />
-//               <Col className="d-flex justify-content-end mt-3 ">
-//                 <span className='forgot'>
-//                   Forgot your password?
-//                 </span>
-//               </Col>
-//               <input className="mt-3 loginBtn" type='submit' value="Login" />
-//               <div className="d-flex justify-content-center mt-4 mb-5">
-//                 <span>Don't have a Tokopedia account? <span className='forgot'>Register</span> </span>
-//               </div>
-//             </Col>
-
-//           </Row>
-//         </Container>
-//       </Container>
-//     );
-//   }
-// }
 import React, { Component } from 'react'
 import {Form, Input, Label, Button, Alert,Col} from 'reactstrap'
 import {Link} from 'react-router-dom'
@@ -101,13 +52,17 @@ class Login extends Component {
 
   componentDidUpdate(){
     console.log("asd",this.props.auth)
-    localStorage.setItem('customer',JSON.stringify(this.props.auth.token));
-    this.localStorage = JSON.parse(localStorage.getItem('customer'));
-    if(this.props.auth.isLogin){
-      console.log('ok')
+    // localStorage.setItem('customer',JSON.stringify(this.props.auth));
+    // this.localStorage = JSON.parse(localStorage.getItem('customer'));
+    // if(this.props.auth.isLogin){
+    //   console.log('ok')
       
-      this.props.history.push('/')
-    }
+    //   this.props.history.push('/')
+    // }
+    this.props.auth.isLogin && this.props.history.push(
+      this.props.location.state === undefined
+      ?'/'
+      :this.props.location.state.location)
   }
   
 

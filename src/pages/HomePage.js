@@ -1,5 +1,5 @@
 
-import React,{Component} from 'react';
+import React,{useEffect,useState} from 'react';
 import {
   Container,
 } from 'reactstrap';
@@ -12,26 +12,28 @@ import CarouselCategory from '../components/CarouselCategory'
 import SetCarousel from '../components/setCarousel'
 
 // import newItemsAction from '../redux/actions/item'
-import itemsNewAction from '../redux/actions/itemNew'
-import itemsPopularAction from '../redux/actions/itemPopular'
+import itemAction from '../redux/actions/item'
+import itemsPopularAction from '../redux/actions/item'
 import categoryAction from '../redux/actions/category'
-import {connect} from 'react-redux'
 
-class Home extends Component {
-  componentDidMount() {
-    // this.props.getItems()
-    this.props.getItemNew()
-    this.props.getItemPopular()
-    this.props.getCategory()
-    // console.log("cek lagi",this.props.getItemNew());
-  }
-  
-  render() {
-    // const {data} = this.props.item
-    const {category} = this.props.category
-    const {dataNew} = this.props.itemConditionNew
-    const {dataPopular} = this.props.itemConditionPopular
-    console.log("cek new:",this.props.itemNew);
+import { useSelector,useDispatch } from 'react-redux'
+
+const Home = () => {
+  const dispatch = useDispatch()
+  const {itemNew} = useSelector(state => state.item)
+  const {itemPopular} = useSelector(state => state.item)
+  const {category} = useSelector(state => state.category)
+  console.log(category);
+
+  useEffect(() => {
+    dispatch(itemAction.getNewItem())
+    dispatch(itemAction.getPopularItem())
+    dispatch(categoryAction.getCategory())
+  }, [])
+
+  useEffect(() => {
+    
+  }, [itemNew,itemPopular])
     return (
       <>
       <Navbar />
@@ -42,28 +44,13 @@ class Home extends Component {
         <SetCarousel>
           <CarouselCategory category={category}/>
         </SetCarousel>
-        <NewItems dataNew={dataNew} />
-        <PopularItems dataPopular={dataPopular} />
+        <NewItems itemNew={itemNew} />
+        <PopularItems  itemPopular={itemPopular} />
       </Container>
     </>
     );
-  }
 }
 
 
-const mapStateToProps = state => ({
-  // item: state.newItems,
-  category: state.listCategory,
-  auth: state.auth,
-  itemConditionNew: state.itemNew,
-  itemConditionPopular: state.itemPopular
-})
 
-const mapDispatchToProps = {
-  // getItems: newItemsAction.getData,
-  getCategory: categoryAction.getCategory,
-  getItemNew: itemsNewAction.getDataNew,
-  getItemPopular:itemsPopularAction.getDataPopular
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home

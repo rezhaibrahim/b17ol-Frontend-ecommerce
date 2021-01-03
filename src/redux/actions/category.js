@@ -1,8 +1,17 @@
-import {default as axios} from 'axios'
+import http from '../../helpers/http';
+import qs from 'qs';
+const {REACT_APP_URL} = process.env
 
 export default {
-    getCategory: ()=>({
+  getCategory: () => ({
     type: 'GET_CATEGORY',
-    payload: axios.get('http://localhost:8080/category')
-  })
-}
+    payload: http().get(`${REACT_APP_URL}category`),
+  }),
+  getDetailCategory: (id) => ({
+    type: 'GET_DETAIL_CATEGORY',
+    payload: http().get(`${REACT_APP_URL}category/${id}`),
+  }),
+  clear: () => ({
+    type: 'CLEAR',
+  }),
+};

@@ -28,7 +28,8 @@ const images = [
 
 
 const CarouselCategory = ({category}) => {
-    console.log("cek:",category);
+    // console.log("cek:",category);
+    const {REACT_APP_URL} = process.env
     return (
         <Container>
         
@@ -46,13 +47,14 @@ const CarouselCategory = ({category}) => {
             itemClass="carousel-item-margin-right-20-px"
         >
             {category.map(category => {
+                // console.log(`${REACT_APP_URL}${category.image.slice(1)}`)
                 return (
                     <div >
                     <Image
                         draggable={true}
                         size={"small"}
                         style={{ width: "100%", height: "100%", padding: "10px" }}
-                        src={`http://localhost:8080${category.image}`}
+                        src={`${REACT_APP_URL}${category.image.slice(1)}`}
                     />
                     </div>
                     
