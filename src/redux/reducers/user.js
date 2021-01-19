@@ -3,6 +3,7 @@ const initialState = {
   editProfile: {},
   isLoading: false,
   isError: false,
+  isUpload: false,
 };
 
 export default (state = initialState, action) => {
@@ -48,6 +49,34 @@ export default (state = initialState, action) => {
         isError: false,
         editProfile: action.payload.data,
       };
+    }
+    case 'UPLOAD_PHOTO_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case 'UPLOAD_PHOTO_REJECTED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+    case 'UPLOAD_PHOTO_FULFILLED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        editProfile: action.payload.data,
+        isUpload:true
+      };
+    }
+    case 'RESET':{
+      return {
+        ...state,
+        profile:[]
+      }
     }
 
     default: {

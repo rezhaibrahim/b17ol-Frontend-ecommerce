@@ -2,6 +2,7 @@ const initialState = {
     itemNew:[],
     itemPopular:[],
     itemDetail:{},
+    picture:[],
     isLoading:false,
     isError:false,
     alertMsg:'',
@@ -73,8 +74,16 @@ export default (state = initialState, action) => {
               isLoading: false,
               isError: false,
               itemDetail: action.payload.data.result,
+              picture: action.payload.data.result.picture,
               pageInfo: action.payload.data.pageInfo,
             };
+          }
+          case 'CLEAR':{
+            return{
+              ...state,
+              itemDetail:[],
+              picture:[],
+            }
           }
         default: {
           return state;

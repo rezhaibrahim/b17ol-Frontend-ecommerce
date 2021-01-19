@@ -32,7 +32,8 @@ class Cart extends Component {
   }
 
   render() {
-    const { data: cart, summary } = this.props.cart;
+    const { mybag} = this.props.cart;
+    console.log(this.props.cart);
     return (
       <>
         <Navbar />
@@ -61,12 +62,13 @@ class Cart extends Component {
                     </Form>
                   </Container>
                 </Card>
-                {cart.map((item) => (
+                {mybag.map((item) => (
                   <CardCart
-                    name={item.name}
-                    store={item.store}
-                    quantity={item.quantity}
+                    name={item.item}
+                    quantity={item.qty}
                     price={item.price}
+                    picture={item.picture}
+                    
                   />
                 ))}
               </Col>
@@ -81,11 +83,11 @@ class Cart extends Component {
                         <span>Total price</span>
                       </div>
                       <div>
-                        <span className="h5 font-weight-bold">
+                        {/* <span className="h5 font-weight-bold">
                           Rp.
                           {numeral(summary).format(0, 0).toString().replace(',', '.')
                             .replace(',', '.')}
-                        </span>
+                        </span> */}
                       </div>
                     </div>
                     <div className="buy mt-3">
@@ -104,11 +106,11 @@ class Cart extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  cart: state.cart,
+  cart: state.mybag,
 });
 
 const mapDispatchToProps = {
-  getCart: cartAction.getCart,
+  getCart: cartAction.getMyBag,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

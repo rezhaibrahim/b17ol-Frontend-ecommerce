@@ -9,8 +9,8 @@ import Rating from './StarRatings'
 
 export default function NewItems({ itemNew }) {
   // console.log("cek",itemNew);
-  const {REACT_APP_URL} = process.env
-  // console.log(REACT_APP_URL);
+  const {REACT_APP_API_URL} = process.env
+  // console.log(REACT_APP_API_URL);
   return (
     <>
       <Container className="mt-3">
@@ -29,7 +29,7 @@ export default function NewItems({ itemNew }) {
             <Col className="m-2" xs="12" lg={{ size: 2, offset: 1 }}>
               <Link className="card-product" to={`/items/${i.id}`}>
                 <Card className="rounded-lg shadow card-product">
-                  <CardImg top width="100%" src={`${REACT_APP_URL}${i.picture.replace('assets/', '')}`} alt="Item image" />
+                  <CardImg top width="100%" src={`${REACT_APP_API_URL}${i.picture.replace('assets/', '')}`} alt="Item image" />
                   <CardBody>
                     <CardText className="m-0"><span className="font-weight-bold h6">{i.itemName}</span></CardText>
                     <Rating number={i.rating}/>

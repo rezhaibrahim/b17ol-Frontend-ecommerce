@@ -8,7 +8,7 @@ import Rating from './StarRatings'
 
 
 export default function PopularItems({ itemPopular }) {
-  const {REACT_APP_URL} = process.env
+  const {REACT_APP_API_URL} = process.env
   // console.log("cek",dataPopular);
   return (
     <>
@@ -26,9 +26,9 @@ export default function PopularItems({ itemPopular }) {
         {itemPopular.map(e => (
           
             <Col className="m-2" xs="12" lg={{ size: 2, offset: 1 }}>
-              <Link className="card-product" to="/items/detail">
+              <Link className="card-product" to={`/items/${e.id}`}>
                 <Card className="rounded-lg shadow card-product">
-                  <CardImg top width="100%" src={`${REACT_APP_URL}${e.picture.replace('assets/', '')}`} alt="Item image" />
+                  <CardImg top width="100%"  alt="Item image" />
                   <CardBody>
                     <CardText className="m-0"><span className="font-weight-bold h6">{e.itemName}</span></CardText>
                     <Rating number={e.rating}/>

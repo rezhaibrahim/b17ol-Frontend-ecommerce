@@ -31,15 +31,20 @@ export class DetailItems extends Component {
 
     };
   }
+  
   componentDidMount() {
+    console.log("cek", this.props)
     this.props.getDetailItems(this.state.id);
     // console.log("asdsad",this.props.location)
     // console.log("detail:",this.props.getDetailItems(this.state.id));
   }
+  componentWillUnmount(){
+    this.props.clear()
+  }
+  
 
-  addCart = (itemsId) =>
-  {
-    // console.log("cart:",itemsId)
+  addCart = (itemsId) => {
+    console.log("cart:",itemsId)
     const cart = {
       itemsId,
       qty: 1
@@ -51,47 +56,58 @@ export class DetailItems extends Component {
           location: this.props.location.pathname
         }
       }
-     
+
       this.props.history.replace(location)
     } else {
       this.props.addCart(this.state.token, cart)
-      setTimeout(()=>{
-        this.props.clearMsg()
-      },2000)
+      
     }
   }
 
   render() {
-    const { dataDetail } = this.props.item;
-    // const data = dataDetail.picture
+    const {REACT_APP_API_URL} = process.env
+    // console.log("url",REACT_APP_API_URL);
+    const { itemDetail } = this.props.item;
+    const { picture } = this.props.item;
+    console.log('log',picture);
+    console.log('log2',itemDetail);
+    // console.log(itemDetail.picture[0]);
+    // const data = itemDetail.picture
     // console.log("asd:",this.props.auth.isLogin);
-    const { alertMsg } = this.props.cart
+    // const { alertMsg } = this.props.cart
     // console.log(this.props.cart.data);
     let results = {};
-    // console.log("cek:",dataDetail);
-    if (dataDetail !== null) {
-      results = dataDetail;
+    // console.log("cek:",itemDetail);
+    if (itemDetail !== null) {
+      results = itemDetail;
     }
     // console.log('asdasdqwe',results)
     return (
       <>
-      <Navigation />
+        <Navigation />
         <Container className="mt-4">
-          <Modal centered isOpen={alertMsg !== ''}>
+          {/* <Modal centered isOpen={alertMsg !== ''}>
             <ModalBody className='text-center'>
               {alertMsg}
             </ModalBody>
-          </Modal>
+          </Modal> */}
           <div>
-            <span className="text-muted h6">{`Home > Category > ${dataDetail.category}`}</span>
+            <span className="text-muted h6">{`Home > Category > ${itemDetail.category}`}</span>
           </div>
           <Row className="my-3">
             <Col md={6}>
               <Row>
-                <Col md={6} className="my-3">
-                  <img width="100%" src={product1} alt="..." />
-                </Col>
-                <Col md={6} className="my-3">
+                { 
+                  picture.map(i => {
+                    // console.log(`${REACT_APP_API_URL}${i.slice(7)}`)
+                    return ( <Col md={6} className="my-3">
+                      <img width="100%" src={`${REACT_APP_API_URL}${i.slice(7)}`} alt="..." />
+                    </Col>)}
+                      )
+                
+                }
+                
+                {/* <Col md={6} className="my-3">
                   <img width="100%" src={product2} alt="..." />
                 </Col>
                 <Col md={6} className="my-3">
@@ -99,23 +115,23 @@ export class DetailItems extends Component {
                 </Col>
                 <Col md={6} className="my-3">
                   <img width="100%" src={product4} alt="..." />
-                </Col>
+                </Col> */}
               </Row>
             </Col>
             <Col md={6} className="my-3 d-flex flex-column">
-              <span className="h4 font-weight-bold">{dataDetail.itemName}</span>
-              <span className="h6 text-muted">{dataDetail.store}</span>
+              <span className="h4 font-weight-bold">{itemDetail.itemName}</span>
+              <span className="h6 text-muted">{itemDetail.store}</span>
               <div>
-                <Rating number={dataDetail.rating} />
+                <Rating number={itemDetail.rating} />
               </div>
               <span className="h6 text-muted mt-4">Price</span>
               <span className="h4 font-weight-bold">
                 Rp.
-                {numeral(dataDetail.price).format(0, 0).toString().replace(',', '.')
+                {numeral(itemDetail.price).format(0, 0).toString().replace(',', '.')
                   .replace(',', '.')}
               </span>
               <span className="mt-4">Color</span>
-    <div>{dataDetail.color}</div>
+              <div>{itemDetail.color}</div>
               <Row className="mt-4">
                 <Col md={7}>
                   <Row>
@@ -135,7 +151,7 @@ export class DetailItems extends Component {
                       <Button block className="btn-2 rounded-pill py-2">Chat</Button>
                     </Col>
                     <Col md={6} className="pl-1">
-                      <Button onClick={()=>this.addCart(results.id)} block className="btn-2 rounded-pill py-2">
+                      <Button onClick={() => this.addCart(results.id)} block className="btn-2 rounded-pill py-2">
                         Add cart
                       </Button>
                     </Col>
@@ -152,10 +168,10 @@ export class DetailItems extends Component {
           <div className="my-5">
             <div className="h4 font-weight-bold">Informasi Produk</div>
             <div className="h5 font-weight-bold mt-4">Condition</div>
-            <div className="h5 font-weight-bold text-danger">{dataDetail.conditions}</div>
+            <div className="h5 font-weight-bold text-danger">{itemDetail.conditions}</div>
             <div className="h5 font-weight-bold mt-4">Description</div>
             <p className="text-muted">
-              {dataDetail.description}
+              {itemDetail.description}
             </p>
           </div>
           <div className="my-5">
@@ -166,11 +182,11 @@ export class DetailItems extends Component {
                   <Row>
                     <Col md={4} className="d-flex flex-column justify-content-center">
                       <div className="display-4">
-                        {dataDetail.rating !== null ? parseFloat(dataDetail.rating).toFixed(1) : 0}
+                        {itemDetail.rating !== null ? parseFloat(itemDetail.rating).toFixed(1) : 0}
                         <small className="h5 text-muted">/10</small>
                       </div>
                       <div>
-                        <Rating number={dataDetail.rating} />
+                        <Rating number={itemDetail.rating} />
                       </div>
                     </Col>
                     <Col md={8}>
@@ -182,6 +198,9 @@ export class DetailItems extends Component {
                           <div>2</div>
                           <div>1</div>
                         </Col>
+                        <Col md={1} className="d-flex flex-column justify-content-center align-items-end">
+                        <Rating  number={itemDetail.rating} />
+                        </Col>
                         <Col md={1} className="d-flex flex-column justify-content-center align-items-center">
                           <div className="text-muted">5</div>
                           <div className="text-muted">4</div>
@@ -189,16 +208,18 @@ export class DetailItems extends Component {
                           <div className="text-muted">2</div>
                           <div className="text-muted">1</div>
                         </Col>
-                        <Col md={7} className="d-flex flex-column justify-content-center align-items-center">
-                          <div>&nbsp;</div>
-                          <div>&nbsp;</div>
-                          <div>&nbsp;</div>
-                          <div>&nbsp;</div>
-                          <div>&nbsp;</div>
+                        <Col md={7} className="d-flex flex-column ">
+                          <div className="progress ">
+                            <div className="progress-bar bg-danger" role="progressbar" style={{width:180,backgroundColor:'red',}} />
+                            
+                            </div>
+                            
+                            
+                           
                         </Col>
                         <Col md={1} className="d-flex flex-column justify-content-center align-items-center">
-                          <div className="text-muted">4</div>
                           <div className="text-muted">0</div>
+                          <div className="text-muted">1</div>
                           <div className="text-muted">0</div>
                           <div className="text-muted">0</div>
                           <div className="text-muted">0</div>
@@ -218,14 +239,14 @@ export class DetailItems extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  item: state.itemNew,
-  cart: state.cart
+  item: state.item,
+  cart: state.mybag
 });
 
 const mapDispatchToProps = {
-  getDetailItems: itemsAction.getDetail,
-  addCart: cartAction.addCart,
-  clearMsg: cartAction.clearMessage
+  getDetailItems: itemsAction.getDetailItem,
+  addCart: cartAction.postToBag,
+  clear: itemsAction.clear,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailItems);

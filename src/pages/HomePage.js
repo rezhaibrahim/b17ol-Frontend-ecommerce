@@ -23,12 +23,13 @@ const Home = () => {
   const {itemNew} = useSelector(state => state.item)
   const {itemPopular} = useSelector(state => state.item)
   const {category} = useSelector(state => state.category)
-  console.log(category);
+  // console.log(category);
 
   useEffect(() => {
     dispatch(itemAction.getNewItem())
     dispatch(itemAction.getPopularItem())
     dispatch(categoryAction.getCategory())
+    dispatch(itemAction.clear())
   }, [])
 
   useEffect(() => {

@@ -1,0 +1,17 @@
+.sidebar {
+    margin-left: 100px;
+  }
+  .grey {
+    height: calc(100vh - 100px);
+  }
+  .main {
+    height: 636px;
+    width: 850px;
+  }
+.address { 
+    background-color:'#F36F45';
+    border-radius:30;
+    width:50;
+    height:50;
+    padding-right:25; }
+                   

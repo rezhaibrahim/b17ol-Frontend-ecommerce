@@ -34,18 +34,19 @@ class NavigationBar extends React.Component {
   setLogout = () => {
     this.props.logout() 
     // this.props.history.replace('/login')
+    localStorage.clear();
     return(
       <Link to='/login' />
     )
   }
 
   render() {
-    if(localStorage.getItem('token') && this.props.auth.token !== null){
-            this.props.auth.isLogin = true
-          }
+    // if(localStorage.getItem('token') && this.props.auth.token !== null){
+    //         this.props.auth.isLogin = true
+    //       }
     return (
       <>
-      {this.props.auth.isLogin  ?
+      {this.props.auth.isLogin === true  ?
       <Navbar color="light" light expand="md" className="shadow sticky-top">
         <Container>
           <Row className="w-100 align-items-center no-gutters">

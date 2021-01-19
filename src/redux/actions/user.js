@@ -8,6 +8,13 @@ export default {
   }),
   updateDetail: (token, data) => ({
     type: 'UPDATE_DETAIL',
-    payload: http(token).patch('customer/edit', qs.stringify(data)),
+    payload: http(token).patch('customer/update', data),
   }),
+  uploadPhoto: (token, data) => ({
+    type: 'UPLOAD_PHOTO',
+    payload: http(token).patch('customer/update', data),
+  }),
+  reset: () => ({
+    type:'RESET'
+  })
 };

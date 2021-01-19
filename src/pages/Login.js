@@ -51,9 +51,9 @@ class Login extends Component {
   }
 
   componentDidUpdate(){
-    console.log("asd",this.props.auth)
-    // localStorage.setItem('customer',JSON.stringify(this.props.auth));
-    // this.localStorage = JSON.parse(localStorage.getItem('customer'));
+    // console.log("asd",localStorage.setItem('token',JSON.stringify(this.props.auth.token)))
+    // localStorage.setItem('token',JSON.stringify(this.props.auth.token));
+    // this.localStorage = JSON.parse(localStorage.getItem('token'));
     // if(this.props.auth.isLogin){
     //   console.log('ok')
       

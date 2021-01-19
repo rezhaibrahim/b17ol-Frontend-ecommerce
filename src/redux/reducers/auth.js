@@ -4,6 +4,7 @@ const initialState = {
   isLogin: false,
   isLoading: false,
   isError: false,
+  token:''
 };
 
 export default (state = initialState, action) => {
@@ -23,6 +24,7 @@ export default (state = initialState, action) => {
       };
     }
     case 'LOGIN_FULFILLED': {
+      localStorage.setItem('token', action.payload.data.token);
       return {
         ...state,
         isError: false,
@@ -53,6 +55,14 @@ export default (state = initialState, action) => {
         isError: false,
         alertMsg: action.payload.data.message,
       };
+    }
+    case 'SET_TOKEN':{
+      return {
+        ...state,
+        isLogin:true,
+        token: action.payload
+        
+      }
     }
     case 'LOGOUT': {
       return {

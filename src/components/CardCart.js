@@ -20,6 +20,7 @@ import minus from '../assets/images/minus.svg';
 import plus from '../assets/images/plus.svg';
 
 export default function CardCart(props) {
+  const {REACT_APP_API_URL} = process.env
   return (
     <>
       <Card body className="shadow mt-3">
@@ -32,15 +33,13 @@ export default function CardCart(props) {
             </Col>
             <Col md={6} className="product d-flex align-items-center">
               <Link to="/product/detail">
-                <img style={{ width: 70, height: 69 }} src={item} alt="product picture" />
+                <img style={{ width: 70, height: 69 }} src={`${REACT_APP_API_URL}${props.picture.replace('assets/', '')}`} alt="product picture" />
               </Link>
               <div className="ml-3 d-flex flex-column">
                 <Link className="card-link" to="/product/detail">
                   <span className="h6 font-weight-bold">{props.name}</span>
                 </Link>
-                <Link className="card-link ml-0" to="/store">
-                  <small className="font-weight-bold text-muted">{props.store}</small>
-                </Link>
+                
               </div>
             </Col>
             <Col md={2} className="total w-100 d-flex align-items-center justify-content-between">

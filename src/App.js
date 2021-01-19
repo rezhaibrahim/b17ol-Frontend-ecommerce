@@ -14,14 +14,14 @@ import HomePage from './pages/HomePage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Customer/Mycart';
-import ProductDetail from './pages/Customer/DetailItems';
+import DetailItem from './pages/Customer/DetailItems';
 import Profile from './pages/Customer/Profile'
 import authAction from './redux/actions/auth'
 import { connect } from 'react-redux';
 
 class App extends Component {
   componentDidMount() {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('token') !== null) {
       this.props.setToken(localStorage.getItem('token'));
     }
   }
@@ -40,7 +40,7 @@ class App extends Component {
               <PrivateRoute path="/profile">
                 <Profile />
               </PrivateRoute>
-              <Route path="/items/:id" component={ProductDetail} />
+              <Route path="/items/:id" component={DetailItem} />
               
             </Switch>
           </BrowserRouter>
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => ({
 
 });
 const mapDispatchToProps = {
-  setToken: authAction.auth,
+  setToken: authAction.setToken,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
